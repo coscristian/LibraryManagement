@@ -1,0 +1,102 @@
+class Person{
+    - String id
+    - String name
+    - String lastname
+    - String age
+    - String address
+    - String phoneNumber
+    - get()
+    - set()
+}
+
+class Degree {
+    - String name
+    - String codeSnies
+    - Integer totalLengthInSemesters
+    - get()
+    - set()
+}
+
+class Faculty {
+    - String name
+    - String id
+    - String buildingNumber
+    - get()
+    - set()
+}
+
+class Professor {
+    - lendsBooks()
+}
+
+interface BookOperation {
+    - searchBook()
+    - searchBooksByAuthor()
+    - searchBooksByKeyWord()
+    - searchBooksByTopic()
+}
+
+class Student {
+    - Integer semester
+    - get()
+    - set()
+    - lendsBooks()
+}
+
+class Employee {
+    - Double salary
+    - get()
+    - set()
+}
+
+class LibraryEmployee {
+    - Boolean isAdmin
+    - get()
+    - set()
+    - giveBookBack()
+}
+
+class Author {
+
+}
+
+class Book {
+    - String id
+    - String title
+    - Integer amount
+    - Integer amountAvailable
+    - String topic
+    - get()
+    - set()
+}
+
+class Topic {
+    - String name
+    - get()
+    - set()
+}
+
+Person <|-- Employee
+Person <|-- Student
+Person <|-- Author
+Employee <|-- Professor
+Employee <|-- LibraryEmployee
+Employee ..> BookOperation
+Student ..> BookOperation
+
+
+Student "*" *-- "1" Degree : studies >
+Professor "*" *-- "1" Degree : is part of >
+Book "*" *-- "*" Author
+Faculty "1" *-- "*" Degree 
+Book "*" *-- "*" Topic 
+
+
+Student "1" o-- "0..2" Book : lends >
+Professor "1" o-- "0..2" Book : lends >
+
+together {
+    class Book
+    class Topic
+    class Author
+}
