@@ -1,6 +1,6 @@
 class Person:
-    def __init__(self, id: str, name: str, last_name: str, age: str, address: str, phone_number: str) -> None:
-        self.__id = id
+    def __init__(self, num_id: str, name: str, last_name: str, age: str, address: str, phone_number: str) -> None:
+        self.__num_id = id
         self.__name = name
         self.__last_name = last_name
         self.__age = age
@@ -8,7 +8,7 @@ class Person:
         self.__phone_number = phone_number
         
     def get_id(self) -> str:
-        return self.__id
+        return self.__num_id
     
     def get_name(self) -> str:
         return self.__name
@@ -35,8 +35,8 @@ class Person:
         self.__phone_number = phone_number
 
 class Student(Person):
-    def __init__(self, id: str, name: str, last_name: str, age: str, address: str, phone_number: str, semester: int) -> None:
-        super().__init__(id, name, last_name, age, address, phone_number)
+    def __init__(self, num_id: str, name: str, last_name: str, age: str, address: str, phone_number: str, semester: int) -> None:
+        super().__init__(num_id, name, last_name, age, address, phone_number)
         self.__semester = semester
     
     def get_semester(self) -> int:

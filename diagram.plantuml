@@ -7,6 +7,10 @@ class Person{
     - String phoneNumber
     - get()
     - set()
+    - searchBook()
+    - searchBooksByAuthor()
+    - searchBooksByKeyWord()
+    - searchBooksByTopic()
 }
 
 class Degree {
@@ -29,12 +33,6 @@ class Professor {
     - lendsBooks()
 }
 
-interface BookOperation {
-    - searchBook()
-    - searchBooksByAuthor()
-    - searchBooksByKeyWord()
-    - searchBooksByTopic()
-}
 
 class Student {
     - Integer semester
@@ -57,7 +55,7 @@ class LibraryEmployee {
 }
 
 class Author {
-
+    - String name
 }
 
 class Book {
@@ -78,11 +76,8 @@ class Topic {
 
 Person <|-- Employee
 Person <|-- Student
-Person <|-- Author
 Employee <|-- Professor
 Employee <|-- LibraryEmployee
-Employee ..> BookOperation
-Student ..> BookOperation
 
 
 Student "*" *-- "1" Degree : studies >
@@ -95,8 +90,3 @@ Book "*" *-- "*" Topic
 Student "1" o-- "0..2" Book : lends >
 Professor "1" o-- "0..2" Book : lends >
 
-together {
-    class Book
-    class Topic
-    class Author
-}
