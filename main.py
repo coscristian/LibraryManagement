@@ -1,5 +1,5 @@
 import mysql.connector
-from clases import *
+from model.Person import *
 
 database = mysql.connector.connect(
     host = "localhost",
