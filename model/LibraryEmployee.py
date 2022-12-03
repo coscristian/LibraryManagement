@@ -10,3 +10,6 @@ class LibraryEmployee(Employee):
     
     def set_is_admin(self, is_admin: bool) -> None:
         self.__is_admin = is_admin
+    
+    def give_book_back(self):
+        pass
