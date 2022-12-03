@@ -8,6 +8,7 @@ class Degree:
         self.__total_length_in_semesters = total_length_in_semesters
         self.__faculty = None
         self.__professors = []
+        self.__students = []
         
     def get_name(self) -> str:
         return self.__name
@@ -24,8 +25,15 @@ class Degree:
     def get_professors(self) -> list:
         return self.__professors
     
+    def get_students(self) -> list:
+        return self.__students
+    
     def set_faculty(self, faculty: Faculty) -> None:
         self.__faculty = faculty
         
     def add_professor(self, professor: Professor) -> None:
         self.__professors.append(professor)
+    
+    def add_student(self, student: Student) -> None:
+        self.__students.append(student)
+        
