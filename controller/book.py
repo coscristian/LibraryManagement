@@ -2,7 +2,11 @@ from controller.connection import connect
 from model.book import BookModel
 
 class BookController:
-    def list_books():
+    
+    def querie_result_to_book_model(self, results):
+        return list(map(lambda t: BookModel(t[0], t[1], t[2], t[3], t[4], t[5]), results))
+    
+    def list_books(self) -> list:
         sql = "SELECT * FROM Book"
         
         db = connect()
@@ -11,8 +15,7 @@ class BookController:
         results = cursor.fetchall() #Get all the rows of the previous querie
         db.close()
         
-        books = list(map(lambda t: BookModel(t[0], t[1], t[2], t[3], t[4], []), results))
-        return books  
+        return self.querie_result_to_book_model(results) 
     
     def insert(self, book: BookModel):
         sql = "INSERT INTO Book (title, amount, amount_available, topic, author) VALUES ('%s', %d, %d, '%s', '%s')" % (book.get_title(), book.get_amount(), book.get_amount_available(), book.get_topic(), book.get_author())
@@ -41,22 +44,25 @@ class BookController:
         db.commit()
         db.close()
         
-    def list_by_author(self, author: str):
+    def list_by_author(self, author: str) -> list:
         sql = "SELECT * FROM Book WHERE author = '%s'" % (author)
         
         db = connect()
         cursor = db.cursor()
         cursor.execute(sql)
         results = cursor.fetchall() #Get all the rows of the previous querie
+        db.close()    
         
-        # Must receive the data and parse them into a bookModel object to show them
-        # Must return 'that
+        return self.querie_result_to_book_model(results)
+            
+    def list_by_topic(self, topic: str) -> list:
+        sql = "SELECT * FROM Book WHERE topic = '%s'" % (topic)
         
-        db.close()        
-    
-    def list_by_key_word(self, key_word: str):
-        pass
-    
-    def list_by_topic(self, topic: str):
-        pass
+        db = connect()
+        cursor = db.cursor()
+        cursor.execute(sql)
+        results = cursor.fetchall() #Get all the rows of the previous querie
+        db.close()    
+        
+        return self.querie_result_to_book_model(results)
         

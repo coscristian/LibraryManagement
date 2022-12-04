@@ -5,7 +5,7 @@ def connect():
         host = "localhost",
         user = "root",
         password = "Quesada-123",
-        database = "Library"
+        database = "library_management"
     )
     return db
     
