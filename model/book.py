@@ -1,5 +1,5 @@
 
-class Book:
+class BookModel:
     def __init__(self, id: str, title: str, amount: int, amount_available: int, topic: str, authors: list) -> None:
         self.__id = id
         self.__title = title

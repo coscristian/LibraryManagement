@@ -1,5 +1,5 @@
 
-class Faculty:
+class FacultyModel:
     def __init__(self, name: str, id: str, building_number: str) -> None:
         self.__name = name
         self.__id = id

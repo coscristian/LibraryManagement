@@ -1,6 +1,4 @@
-
-
-class Topic:
+class TopicModel:
     def __init__(self, name: str) -> None:
         self.__name = name
         self.__books = []

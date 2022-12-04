@@ -1,4 +1,4 @@
-class Degree:
+class DegreeModel:
     def __init__(self, name: str, code_snies: str, total_length_in_semesters: int) -> None:
         self.__name = name
         self.__code_snies = code_snies

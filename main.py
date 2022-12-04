@@ -42,7 +42,6 @@ def create_student_table(cursor):
     """
     )
 
-
 try:
     cursor = database.cursor() #Permite ejecutar sentencias sql desde python
     create_employee_table(cursor)

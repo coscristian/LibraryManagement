@@ -1,6 +1,6 @@
-from model.person import Person
+from model.person import PersonModel
 
-class Employee(Person):
+class EmployeeModel(PersonModel):
     def __init__(self, num_id: str, name: str, last_name: str, age: str, address: str, phone_number: str,
                  salary: float) -> None:
         super().__init__(num_id, name, last_name, age, address, phone_number)
