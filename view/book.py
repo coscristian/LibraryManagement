@@ -1,12 +1,16 @@
 import tkinter as tk
 from tkinter import ttk #Version of tkinter with better themes for visualization
 from controller.book import BookController
+from model.book import BookModel
+
 
 class BookView(tk.Tk):
     def __init__(self):
         super().__init__()
         
-        self.geometry("640x480")
+        self.__book_controller = BookController()
+        
+        self.geometry("1080x250")
         self.title("Library Management")
         #self.iconbitmap("logo_utp.png")
         
@@ -38,11 +42,30 @@ class BookView(tk.Tk):
         # Search by topic button
         button_search_by_topic = ttk.Button(frame, text = "Topic")
         button_search_by_topic.grid(column = 0, row = 3)
-                
+        
+        button_insert_book = ttk.Button(frame, text = "Insert book", command = self.__open_window_insert_book)
+        button_insert_book.grid(column = 0, row = 4)
+                                
     def __build_right_frame(self, frame: tk.Frame):
         
         table = ttk.Treeview(frame)
         table.grid(column = 0, row = 0, columnspan = 2)
+        
+        table['columns'] = ('ID', 'Title', 'Amount', 'Available', 'Topic')
+        
+        table.heading('#0', text = "", anchor = tk.CENTER)
+        table.heading('ID', text = "ID", anchor = tk.CENTER)
+        table.heading('Title', text = "Title", anchor = tk.CENTER)
+        table.heading('Amount', text = "Amount", anchor = tk.CENTER)
+        table.heading('Available', text = "Available", anchor = tk.CENTER)
+        table.heading('Topic', text = "Topic", anchor = tk.CENTER)
+        
+        table.column('#0', width = 0, stretch = tk.NO)
+        table.column('ID', anchor = tk.CENTER, width = 40)
+        table.column('Title', anchor = tk.CENTER, width = 300)
+        table.column('Amount', anchor = tk.CENTER, width = 80)
+        table.column('Available', anchor = tk.CENTER, width = 80)
+        table.column('Topic', anchor = tk.CENTER, width = 300)
         
         button1 = ttk.Button(frame, text = "Lend book")
         button1.grid(column = 0, row = 1)
@@ -53,8 +76,7 @@ class BookView(tk.Tk):
     def __open_window_search_by_title(self):
         
         def search_by_title():
-            book_controller = BookController()
-            books = book_controller.list_by_title(self.__book_title.get())
+            books = self.__book_controller.list_by_title(self.__book_title.get())
             search_by_title_window.destroy()
             print(books)
                     
@@ -73,6 +95,62 @@ class BookView(tk.Tk):
         button_search_book.grid(column = 2, row = 0, padx = 5, pady = 5)
         
         self.mainloop()
+        
+    # TODO: Function def __open_window_search_by_author(self)
+    
+    # TODO: Function def __open_window_search_by_topic(self)
+
+    def __open_window_insert_book(self):
+        
+        def are_valid_fields(title: str, amount: int, amount_available: int, topic: str, author) -> bool:
+            empty_field = len(title) == 0 or amount == 0 or amount_available == 0 or len(topic) == 0 or len(author) == 0
+            if not empty_field:
+                return True
+            return False
+        
+        def insert_book():
+            # TODO: Validar errores con try y en caso de error lanzar la excepción
+            title = self.__new_book_title.get()
+            amount = self.__new_book_amount.get()
+            amount_available = self.__new_book_amount_av.get()
+            topic = self.__new_book_topic.get()
+            author = self.__new_book_author.get()
+            
+            if are_valid_fields(title, amount, amount_available, topic, author):
+                self.__book_controller.insert(BookModel(title, amount, amount_available, topic, author))
+
+        insert_book_window = tk.Tk()
+        insert_book_window.geometry("350x210")
+        insert_book_window.title("Inserting book")
+        
+        frame = tk.Frame(insert_book_window)
+        frame.grid(column = 0, row = 0)
+        
+        ttk.Label(frame, text = "Title").grid(column = 0, row = 0, padx=25, pady=5)
+        self.__new_book_title = tk.StringVar()
+        ttk.Entry(frame, textvariable = self.__new_book_title).grid(column = 1, row = 0, padx = 5, pady = 5)
+        
+        ttk.Label(frame, text = "Amount").grid(column = 0, row = 1, padx=25, pady=5)
+        self.__new_book_amount = tk.StringVar()
+        ttk.Entry(frame, textvariable = self.__new_book_amount).grid(column = 1, row = 1, padx = 5, pady = 5)
+        
+        ttk.Label(frame, text = "Amount available").grid(column = 0, row = 2, padx=25, pady=5)
+        self.__new_book_amount_av = tk.StringVar()
+        ttk.Entry(frame, textvariable = self.__new_book_amount_av).grid(column = 1, row = 2, padx = 5, pady = 5)
+        
+        ttk.Label(frame, text = "Topic").grid(column = 0, row = 3, padx=25, pady=5)
+        self.__new_book_topic = tk.StringVar()
+        ttk.Entry(frame, textvariable = self.__new_book_topic).grid(column = 1, row = 3, padx = 5, pady = 5)
+        
+        ttk.Label(frame, text = "Author").grid(column = 0, row = 4, padx=25, pady=5)
+        self.__new_book_author = tk.StringVar()
+        ttk.Entry(frame, textvariable = self.__new_book_author).grid(column = 1, row = 4, padx = 5, pady = 5)
+                
+        button_insert_book = ttk.Button(frame, text = "Insert", command = insert_book)
+        button_insert_book.grid(column = 1, row = 5, padx = 5, pady = 5)
+        
+        self.mainloop()
+        
 
     def start_execution(self):
         self.mainloop()
