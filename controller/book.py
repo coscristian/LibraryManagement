@@ -44,6 +44,17 @@ class BookController:
         db.commit()
         db.close()
         
+    def list_by_title(self, title: str) -> list:
+        sql = "SELECT * FROM Book WHERE title = '%s'" % (title)
+        
+        db = connect()
+        cursor = db.cursor()
+        cursor.execute(sql)
+        results = cursor.fetchall() #Get all the rows of the previous querie
+        db.close()    
+        
+        return self.querie_result_to_book_model(results)  
+        
     def list_by_author(self, author: str) -> list:
         sql = "SELECT * FROM Book WHERE author = '%s'" % (author)
         
