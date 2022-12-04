@@ -25,7 +25,7 @@ def create_employee_table(cursor):
             salary float
         );
     """
-                   )
+    )
 
 
 def create_student_table(cursor):
@@ -40,7 +40,7 @@ def create_student_table(cursor):
             semester int 
         );
     """
-                   )
+    )
 
 
 try:
