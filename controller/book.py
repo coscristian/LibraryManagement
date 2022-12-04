@@ -15,7 +15,7 @@ class BookController:
         return books  
     
     def insert(self, book: BookModel):
-        sql = "INSERT INTO Book (title, amount, amount_available, topic) VALUES ('%s', %d, %d, %s)" % (book.get_title(), book.get_amount(), book.get_amount_available(), book.get_topic())
+        sql = "INSERT INTO Book (title, amount, amount_available, topic, author) VALUES ('%s', %d, %d, '%s', '%s')" % (book.get_title(), book.get_amount(), book.get_amount_available(), book.get_topic(), book.get_author())
         
         db = connect()
         cursor = db.cursor()
@@ -40,3 +40,23 @@ class BookController:
         cursor.execute(sql)
         db.commit()
         db.close()
+        
+    def list_by_author(self, author: str):
+        sql = "SELECT * FROM Book WHERE author = '%s'" % (author)
+        
+        db = connect()
+        cursor = db.cursor()
+        cursor.execute(sql)
+        results = cursor.fetchall() #Get all the rows of the previous querie
+        
+        # Must receive the data and parse them into a bookModel object to show them
+        # Must return 'that
+        
+        db.close()        
+    
+    def list_by_key_word(self, key_word: str):
+        pass
+    
+    def list_by_topic(self, topic: str):
+        pass
+        

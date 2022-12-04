@@ -1,6 +1,6 @@
 
 class BookModel:
-    def __init__(self, id: str, title: str, amount: int, amount_available: int, topic: str, authors: list) -> None:
+    def __init__(self, id: str, title: str, amount: int, amount_available: int, topic: str, author: None) -> None:
         self.__id = id
         self.__title = title
         self.__amount = amount
@@ -8,7 +8,7 @@ class BookModel:
         self.__topic = topic
         self.__professor = None
         self.__student = None
-        self.__authors = authors
+        self.__author = author
 
     def get_id(self) -> str:
         return self.__id
@@ -31,8 +31,8 @@ class BookModel:
     def get_student(self):
         return self.__student
 
-    def get_authors(self) -> list:
-        return self.__authors
+    def get_author(self):
+        return self.__author
 
     def set_amount(self, amount: int) -> None:
         self.__amount = amount
@@ -47,4 +47,4 @@ class BookModel:
         self.__student = student
 
     def add_author(self, author) -> None:
-        self.__authors.append(author)
+        self.__author = author
