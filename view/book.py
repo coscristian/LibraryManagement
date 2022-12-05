@@ -1,8 +1,8 @@
 import tkinter as tk
-from tkinter import ttk #Version of tkinter with better themes for visualization
+from tkinter import ttk, messagebox #Version of tkinter with better themes for visualization
 from controller.book import BookController
 from model.book import BookModel
-
+from controller.exceptions import MandatoryField
 
 class BookView(tk.Tk):
     def __init__(self):
@@ -94,7 +94,7 @@ class BookView(tk.Tk):
         button_search_book = ttk.Button(frame, text = "Search", command = search_by_title)
         button_search_book.grid(column = 2, row = 0, padx = 5, pady = 5)
         
-        self.mainloop()
+        #self.mainloop()
         
     # TODO: Function def __open_window_search_by_author(self)
     
@@ -108,17 +108,28 @@ class BookView(tk.Tk):
                 return True
             return False
         
-        def insert_book():
+        def insert_book(title_entry, amount_entry, amount_available_entry, topic_entry, author_entry):
             # TODO: Validar errores con try y en caso de error lanzar la excepción
-            title = self.__new_book_title.get()
-            amount = self.__new_book_amount.get()
-            amount_available = self.__new_book_amount_av.get()
-            topic = self.__new_book_topic.get()
-            author = self.__new_book_author.get()
             
-            if are_valid_fields(title, amount, amount_available, topic, author):
-                self.__book_controller.insert(BookModel(title, amount, amount_available, topic, author))
-
+            title = title_entry.get()
+            amount = amount_entry.get()
+            available = amount_available_entry.get()
+            topic = topic_entry.get()
+            author = author_entry.get()
+            
+            #CHECK HERE
+            try:
+                if are_valid_fields(title, amount, available, topic, author):
+                    self.__book_controller.insert(BookModel(title, int(amount), int(available), topic, author))
+                    insert_book_window.destroy() 
+                    messagebox.showinfo("Inserting book","Book added sucesfully!!")
+                else:
+                    raise MandatoryField("Los campos son obligatorios.")
+            except ValueError:
+                messagebox.showerror("ERROR: Please input a correct int value")
+            except MandatoryField as mandatory_field:
+                messagebox.showerror(f"ERROR: {mandatory_field.get_message()}")
+                
         insert_book_window = tk.Tk()
         insert_book_window.geometry("350x210")
         insert_book_window.title("Inserting book")
@@ -127,29 +138,34 @@ class BookView(tk.Tk):
         frame.grid(column = 0, row = 0)
         
         ttk.Label(frame, text = "Title").grid(column = 0, row = 0, padx=25, pady=5)
-        self.__new_book_title = tk.StringVar()
-        ttk.Entry(frame, textvariable = self.__new_book_title).grid(column = 1, row = 0, padx = 5, pady = 5)
+        #__new_book_title = tk.StringVar()
+        title_entry = ttk.Entry(frame)
+        title_entry.grid(column = 1, row = 0, padx = 5, pady = 5)
         
         ttk.Label(frame, text = "Amount").grid(column = 0, row = 1, padx=25, pady=5)
-        self.__new_book_amount = tk.StringVar()
-        ttk.Entry(frame, textvariable = self.__new_book_amount).grid(column = 1, row = 1, padx = 5, pady = 5)
+        #self.__new_book_amount = tk.IntVar()
+        amount_entry = ttk.Entry(frame)
+        amount_entry.grid(column = 1, row = 1, padx = 5, pady = 5)
         
         ttk.Label(frame, text = "Amount available").grid(column = 0, row = 2, padx=25, pady=5)
-        self.__new_book_amount_av = tk.StringVar()
-        ttk.Entry(frame, textvariable = self.__new_book_amount_av).grid(column = 1, row = 2, padx = 5, pady = 5)
+        #self.__new_book_amount_av = tk.IntVar()
+        amount_available_entry = ttk.Entry(frame)
+        amount_available_entry.grid(column = 1, row = 2, padx = 5, pady = 5)
         
         ttk.Label(frame, text = "Topic").grid(column = 0, row = 3, padx=25, pady=5)
-        self.__new_book_topic = tk.StringVar()
-        ttk.Entry(frame, textvariable = self.__new_book_topic).grid(column = 1, row = 3, padx = 5, pady = 5)
+        #self.__new_book_topic = tk.StringVar()
+        topic_entry = ttk.Entry(frame)
+        topic_entry.grid(column = 1, row = 3, padx = 5, pady = 5)
         
         ttk.Label(frame, text = "Author").grid(column = 0, row = 4, padx=25, pady=5)
-        self.__new_book_author = tk.StringVar()
-        ttk.Entry(frame, textvariable = self.__new_book_author).grid(column = 1, row = 4, padx = 5, pady = 5)
+        #self.__new_book_author = tk.StringVar()
+        author_entry = ttk.Entry(frame)
+        author_entry.grid(column = 1, row = 4, padx = 5, pady = 5)
                 
-        button_insert_book = ttk.Button(frame, text = "Insert", command = insert_book)
+        button_insert_book = ttk.Button(frame, text = "Insert", command = lambda title = title_entry, amount = amount_entry, available = amount_available_entry, topic = topic_entry, author = author_entry : insert_book(title, amount, available, topic, author))
         button_insert_book.grid(column = 1, row = 5, padx = 5, pady = 5)
         
-        self.mainloop()
+        #self.mainloop()
         
 
     def start_execution(self):
