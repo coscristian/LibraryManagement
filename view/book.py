@@ -10,8 +10,9 @@ class BookView(tk.Tk):
         
         self.__book_controller = BookController()
         
-        self.geometry("1080x250")
+        self.geometry("1250x250")
         self.title("Library Management")
+        self.resizable(False,False)
         #self.iconbitmap("logo_utp.png")
         
         self.columnconfigure(0, weight = 1)
@@ -26,6 +27,8 @@ class BookView(tk.Tk):
         right_frame = tk.Frame(self)
         self.__build_right_frame(right_frame)
         right_frame.grid(column = 1, row = 0)
+        
+        self.__load_table()
         
     def __build_left_frame(self, frame):
         
@@ -48,24 +51,26 @@ class BookView(tk.Tk):
                                 
     def __build_right_frame(self, frame: tk.Frame):
         
-        table = ttk.Treeview(frame)
-        table.grid(column = 0, row = 0, columnspan = 2)
+        self.__table = ttk.Treeview(frame)
+        self.__table.grid(column = 0, row = 0, columnspan = 2)
         
-        table['columns'] = ('ID', 'Title', 'Amount', 'Available', 'Topic')
+        self.__table['columns'] = ('ID', 'Title', 'Amount', 'Available', 'Topic', 'Author')
         
-        table.heading('#0', text = "", anchor = tk.CENTER)
-        table.heading('ID', text = "ID", anchor = tk.CENTER)
-        table.heading('Title', text = "Title", anchor = tk.CENTER)
-        table.heading('Amount', text = "Amount", anchor = tk.CENTER)
-        table.heading('Available', text = "Available", anchor = tk.CENTER)
-        table.heading('Topic', text = "Topic", anchor = tk.CENTER)
+        self.__table.heading('#0', text = "", anchor = tk.CENTER)
+        self.__table.heading('ID', text = "ID", anchor = tk.CENTER)
+        self.__table.heading('Title', text = "Title", anchor = tk.CENTER)
+        self.__table.heading('Amount', text = "Amount", anchor = tk.CENTER)
+        self.__table.heading('Available', text = "Available", anchor = tk.CENTER)
+        self.__table.heading('Topic', text = "Topic", anchor = tk.CENTER)
+        self.__table.heading('Author', text = "Author", anchor = tk.CENTER)
         
-        table.column('#0', width = 0, stretch = tk.NO)
-        table.column('ID', anchor = tk.CENTER, width = 40)
-        table.column('Title', anchor = tk.CENTER, width = 300)
-        table.column('Amount', anchor = tk.CENTER, width = 80)
-        table.column('Available', anchor = tk.CENTER, width = 80)
-        table.column('Topic', anchor = tk.CENTER, width = 300)
+        self.__table.column('#0', width = 0, stretch = tk.NO)
+        self.__table.column('ID', anchor = tk.E, width = 40)
+        self.__table.column('Title', anchor = tk.CENTER, width = 300)
+        self.__table.column('Amount', anchor = tk.E, width = 80)
+        self.__table.column('Available', anchor = tk.E, width = 80)
+        self.__table.column('Topic', anchor = tk.CENTER, width = 300)
+        self.__table.column('Author', anchor = tk.CENTER, width = 300)
         
         button1 = ttk.Button(frame, text = "Lend book")
         button1.grid(column = 0, row = 1)
@@ -120,9 +125,10 @@ class BookView(tk.Tk):
             #CHECK HERE
             try:
                 if are_valid_fields(title, amount, available, topic, author):
-                    self.__book_controller.insert(BookModel(title, int(amount), int(available), topic, author))
+                    self.__book_controller.insert(BookModel(0, title, int(amount), int(available), topic, author))
                     insert_book_window.destroy() 
                     messagebox.showinfo("Inserting book","Book added sucesfully!!")
+                    self.__load_table()
                 else:
                     raise MandatoryField("Los campos son obligatorios.")
             except ValueError:
@@ -167,7 +173,17 @@ class BookView(tk.Tk):
         
         #self.mainloop()
         
-
+    def __load_table(self):
+        books = self.__book_controller.list_books()
+        print(books[0].get_id())
+        # Clear the table elements
+        for item in self.__table.get_children(""):
+            self.__table.delete(item)
+        
+        for book in books:
+            book_id = book.get_id()
+            self.__table.insert(parent = '', index = book_id, iid = book_id, text = "", values = (book_id, book.get_title(), book.get_amount(), book.get_amount_available(), book.get_topic(), book.get_author()))
+        
     def start_execution(self):
         self.mainloop()
         

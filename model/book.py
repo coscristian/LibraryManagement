@@ -1,6 +1,6 @@
 
 class BookModel:
-    def __init__(self,title: str, amount: int, amount_available: int, topic: str, author = None, id = None) -> None:
+    def __init__(self,id: int, title: str, amount: int, amount_available: int, topic: str, author = None) -> None:
         self.__id = id
         self.__title = title
         self.__amount = amount

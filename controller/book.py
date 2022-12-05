@@ -7,12 +7,13 @@ class BookController:
         return list(map(lambda t: BookModel(t[0], t[1], t[2], t[3], t[4], t[5]), results))
     
     def list_books(self) -> list:
-        sql = "SELECT * FROM Book"
+        sql = "SELECT id, title, amount, amount_available, topic, author FROM Book"
         
         db = connect()
         cursor = db.cursor()
         cursor.execute(sql)
         results = cursor.fetchall() #Get all the rows of the previous querie
+        print(results)
         db.close()
         
         return self.querie_result_to_book_model(results) 
