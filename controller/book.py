@@ -13,7 +13,7 @@ class BookController:
         cursor = db.cursor()
         cursor.execute(sql)
         results = cursor.fetchall() #Get all the rows of the previous querie
-        print(results)
+        
         db.close()
         
         return self.querie_result_to_book_model(results) 
