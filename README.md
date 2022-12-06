@@ -1,6 +1,6 @@
 # LibraryManagement
 Administration system for a bookstore where a catalog of books is stored. (The storage of the books was done using the MYSQL database engine.
-
+This system was designed using MVC pattern design.
 ## Main Menu
 ![Screenshot from 2022-12-06 15-54-38](https://user-images.githubusercontent.com/83193118/206021157-7210dbc5-6944-4905-9877-363590b7b3ff.png)
 
