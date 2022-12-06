@@ -3,7 +3,6 @@ from tkinter import ttk, messagebox #Version of tkinter with better themes for v
 from controller.book import BookController
 from model.book import BookModel
 from controller.exceptions import MandatoryField
-import tkinter.font as font
 
 class BookView(tk.Tk):
     def __init__(self):
