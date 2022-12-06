@@ -106,7 +106,7 @@ class BookView(tk.Tk):
     def __open_window_search(self, window_title: str, label_text: str, button_text: str, button_event):
                     
         self.window_search = tk.Tk()
-        self.window_search.geometry("350x100")
+        self.window_search.geometry("380x100")
         self.window_search.title(window_title)
 
         frame = tk.Frame(self.window_search)
